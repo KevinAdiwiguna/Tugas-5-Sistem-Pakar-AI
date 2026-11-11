@@ -1,0 +1,52 @@
+{
+  "judul": "Sistem Pakar Diagnosa Jenis Serangan dan Insiden Keamanan Siber",
+  "batas": "Sistem ini disusun berdasarkan NIST SP 800-61r2 dan publikasi analisis ancaman siber. Hanya mencakup insiden Ransomware, Ransomware DDoS Attack, Phishing Credential Harvesting, dan SQL Injection. Hasil merupakan rekomendasi awal triase keamanan jaringan, bukan audit forensik digital menyeluruh.",
+  "sumber": {
+    "S1": "NIST SP 800-61r2: Computer Security Incident Handling Guide, NIST, 2012",
+    "S2": "Jurnal Analisis dan Identifikasi Serangan Cyber Attack pada Jaringan, 2022"
+  },
+  "aturan": [
+    {
+      "id": "R1",
+      "jika": ["file sistem berubah menjadi ekstensi terenkripsi", "muncul pesan tebusan pembayaran"],
+      "mode": "atau",
+      "maka": "indikasi infeksi malware enkripsi",
+      "sumber": "S1"
+    },
+    {
+      "id": "R2",
+      "jika": ["indikasi infeksi malware enkripsi", "layanan server terhenti mendadak"],
+      "mode": "dan",
+      "maka": "Serangan Ransomware (Ransomware Attack)",
+      "sumber": "S1"
+    },
+    {
+      "id": "R3",
+      "jika": ["lonjakan trafik inbound abnormal", "server tidak merespons request legitimate"],
+      "mode": "dan",
+      "maka": "Serangan Distributed Denial of Service (DDoS)",
+      "sumber": "S2"
+    },
+    {
+      "id": "R4",
+      "jika": ["menerima email mencurigakan bertema darurat", "terdapat link menuju domain tiruan"],
+      "mode": "atau",
+      "maka": "indikasi rekayasa sosial",
+      "sumber": "S1"
+    },
+    {
+      "id": "R5",
+      "jika": ["indikasi rekayasa sosial", "pengguna memasukkan kredensial login"],
+      "mode": "dan",
+      "maka": "Serangan Phishing Credential Harvesting",
+      "sumber": "S1"
+    },
+    {
+      "id": "R6",
+      "jika": ["input form berisi karakter kutip atau syntax SQL", "database mengembalikan pesan error sintaks"],
+      "mode": "dan",
+      "maka": "Serangan SQL Injection (SQLi)",
+      "sumber": "S2"
+    }
+  ]
+}
